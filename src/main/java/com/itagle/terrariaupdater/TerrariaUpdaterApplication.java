@@ -48,7 +48,7 @@ public class TerrariaUpdaterApplication {
 
 	private static final String DEDICATED_SERVER_URI = "https://terraria.org/api/download/pc-dedicated-server/";
 
-	@Scheduled(cron = "0 */15 * * * *")
+	@Scheduled(cron = "${terraria.cron.downloadAttempt}")
 	public void scheduledServerUpdate() throws IOException, InterruptedException {
 
 		log.info("Starting scheduled Server Update");
@@ -64,7 +64,7 @@ public class TerrariaUpdaterApplication {
 			log.info("Sticking with current version");
 		} else {
 			// Download Terraria ZIP file and install
-			downloadServerService.download(zipDownloadUri, zipFilename);
+			downloadServerService.download(zipDownloadUri, properties.getInstallationPath() + "\\" + zipFilename);
 			uncompressServerFileService.unzip(properties.getInstallationPath() + "\\" + zipFilename, properties.getInstallationPath());
 			// Close Current running server and verify
 			setupServerService.stopServer(properties.getServerPropertiesPath());
