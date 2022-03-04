@@ -14,6 +14,7 @@ public class DownloadServerService {
 
     public void download(String url, String localFilename) {
         try {
+            log.info("Downloading file in {}", localFilename);
             FileUtils.copyURLToFile(new URL(url), new File(localFilename));
         } catch (IOException e) {
             log.error("Unable to download server file", e);
